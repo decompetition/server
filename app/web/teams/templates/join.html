@@ -1,0 +1,16 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Join Team</h1>
+<p class="subsubhead">Unlike last year, you don't have to join a team to play!</p>
+
+<form action="{{ url_for('teams.join') }}" method="POST">
+  {{ form.csrf_token }}
+  {{ form | field('team_id') }}
+  {{ form | field('password') }}
+  <div class="buttons">
+    <a href="{{ url_for('teams.new') }}">New Team</a>
+    <input type="submit" value="Join" />
+  </div>
+</form>
+{% endblock %}

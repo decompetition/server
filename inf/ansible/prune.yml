@@ -1,0 +1,5 @@
+- hosts:  app
+  become: true
+  tasks:
+  - name: docker system prune
+    command: docker system prune --force

@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block style %}
+td:nth-child(3) {text-align: center;}
+td:nth-child(4) {text-align: right;}
+td:nth-child(5) {text-align: right;}
+{% endblock %}
+
+{% block content %}
+<h1>{{ user.name }}</h1>
+<div class="subhead">
+{% if user.team %}
+  member of
+  <a href="{{ url_for('teams.show', id=user.team.id) }}">{{ user.team.name }}</a>
+  <span class="id">#{{ user.team.id }}</span>
+{% else %}
+  playing solo
+{% endif %}
+</div>
+
+{% include "solves.html" %}
+{% endblock %}

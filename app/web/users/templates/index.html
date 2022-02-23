@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Users</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Team</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for user in users %}
+    <tr>
+      <td>
+        <img width="16px" src="/static/icons/user.svg" title="User" />
+        <a href="{{ url_for('users.show', id=user.id) }}">{{ user.name }}</a>
+        <span class="id">#{{ user.id }}</span>
+      </td>
+      <td>
+{% if user.team %}
+        <img width="16px" src="/static/icons/team.svg" title="Team" />
+        <a href="{{ url_for('teams.show', id=user.team.id) }}">{{ user.team.name }}</a>
+        <span class="id">#{{ user.team.id }}</span>
+{% endif %}
+      </td>
+    </tr>
+{% endfor %}
+{% if not users %}
+    <tr class="placeholder">
+      <td colspan="999">no users yet</td>
+    </tr>
+{% endif %}
+  </tbody>
+</table>
+{% endblock %}

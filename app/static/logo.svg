@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="-105 -105 210 210" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <symbol id="1" x="-25" y="-25">
+      <g transform="translate(25, 24)">
+        <path fill-rule="evenodd" d="
+          M-12,20 L12,20 L12,16 Q3,16 3,14 L3,-18 L-2,-18 Q-5,-15 -10,-15 L-10,-12 L-3,-12 L-3,14 Q-3,16 -12,16 Z
+        " />
+      </g>
+    </symbol>
+
+    <symbol id="0" x="-25" y="-25">
+      <g transform="translate(25, 25)">
+        <path fill-rule="evenodd" d="
+          M-14,0 Q-14,20 0,20 Q14,20 14,0 Q14,-20 0,-20 Q-14,-20 0,-20 Q-14,-20 -14,0 Z
+          M-8,0 Q-8,15 0,15 Q8,15 8,0 Q8,-15 0,-15 Q-8,-15 0,-15 Q-8,-15 -8,0 Z
+        " />
+        <rect x="-6" y="-2" width="12" height="4" rx="1" />
+      </g>
+    </symbol>
+
+    <symbol id="b" x="-25" y="-25">
+      <g transform="translate(26, 24)">
+        <path fill-rule="evenodd" d="
+          M-6,-18 L-10,-17 L-10,20 L-6,20 L-6,18 Q-4,20 0,20 Q10,20 10,10 Q10,0 0,0 Q-4,0 -6,2 Z
+          M-5.5,12 Q-5.5,17 0,17 Q5,17 5,10 Q5,3 0,3 Q-5.5,3 -5.5,10 Z
+        " />
+      </g>
+    </symbol>
+  </defs>
+
+  <circle cx="0" cy="0" r="100" fill="#000000" />
+  <path d="M0,-100 A50,50 0 0 0 0,0 A50,50 0 0 1 0,100 A100,100 0 0 0 0,-100 Z" fill="#400080" />
+
+  <g id="call" fill="#7000d0" transform="translate(0, 23)">
+    <use href="#0" transform="rotate(  0.00) translate(0, -73) scale(1.1)" fill="#aa77ff" />
+    <use href="#b" transform="rotate( 19.00) translate(0, -74) scale(0.3)" />
+    <use href="#1" transform="rotate( 30.00) translate(0, -73) scale(0.8)" />
+    <use href="#1" transform="rotate( 50.00) translate(0, -73) scale(0.7)" />
+    <use href="#1" transform="rotate( 67.40) translate(0, -73) scale(0.6)" />
+    <use href="#0" transform="rotate( 82.54) translate(0, -73) scale(0.5)" />
+    <use href="#1" transform="rotate( 95.71) translate(0, -73) scale(0.4)" />
+    <use href="#0" transform="rotate(107.17) translate(0, -73) scale(0.3)" />
+    <use href="#0" transform="rotate(117.13) translate(0, -73) scale(0.2)" />
+    <use href="#0" transform="rotate(125.81) translate(0, -73) scale(0.1)" />
+  </g>
+
+  <g id="ret" fill="#505050" transform="translate(0, -23) rotate(180)">
+    <use href="#0" transform="rotate(  0.00) translate(0, -73) scale(1.1)" fill="#999999" />
+    <use href="#b" transform="rotate( 19.00) translate(0, -74) scale(0.3)" />
+    <use href="#1" transform="rotate( 30.00) translate(0, -73) scale(0.8)" />
+    <use href="#1" transform="rotate( 50.00) translate(0, -73) scale(0.7)" />
+    <use href="#0" transform="rotate( 67.40) translate(0, -73) scale(0.6)" />
+    <use href="#0" transform="rotate( 82.54) translate(0, -73) scale(0.5)" />
+    <use href="#0" transform="rotate( 95.71) translate(0, -73) scale(0.4)" />
+    <use href="#0" transform="rotate(107.17) translate(0, -73) scale(0.3)" />
+    <use href="#1" transform="rotate(117.13) translate(0, -73) scale(0.2)" />
+    <use href="#1" transform="rotate(125.81) translate(0, -73) scale(0.1)" />
+  </g>
+</svg>

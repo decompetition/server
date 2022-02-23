@@ -1,0 +1,13 @@
+User ubuntu
+UserKnownHostsFile inf/vars/${env}/known_hosts
+StrictHostKeyChecking accept-new
+
+Host ${web.tags["Nick"]}
+  HostName ${web.public_ip}
+
+Host ${db.tags["Nick"]}
+  HostName ${db.public_ip}
+%{ for server in app }
+Host ${server.tags["Nick"]}
+  HostName ${server.public_ip}
+%{ endfor }

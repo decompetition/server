@@ -1,0 +1,28 @@
+<table>
+  <thead>
+    <th>Challenge</th>
+    <th>Lang.</th>
+    <th>Value</th>
+    <th>Best</th>
+    <th>Latest</th>
+  </thead>
+  <tbody>
+{% for solve in solves %}
+    <tr>
+      <td>
+        <a href="{{ url_for('challenges.show', id=solve.id) }}">{{ solve.name }}</a>
+        <span class="id">#{{ solve.id }}</span>
+      </td>
+      <td>{{ solve.language }}</td>
+      <td>{{ solve.possible }}</td>
+      <td>{{ solve.score | percent }}</td>
+      <td>{{ solve.created_at | datetime }}</td>
+    </tr>
+{% endfor %}
+{% if not solves %}
+    <tr class="placeholder">
+      <td colspan="999">no submissions</td>
+    </tr>
+{% endif %}
+  </tbody>
+</table>

@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block style %}
+table td:nth-child(3) {
+  text-align: right;
+}
+{% endblock %}
+
+{% block content %}
+<h1>First Blood</h1>
+<!-- <div class="subhead"></div> -->
+
+<table>
+  <thead>
+    <tr>
+      <th>Challenge</th>
+      <th>Player</th>
+      <th>Time</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for submission in submissions %}
+    <tr>
+      <td>
+        <a href="{{ url_for('challenges.show', id=submission.challenge.id) }}">{{ submission.challenge.name }}</a>
+        <span class="id">#{{ submission.challenge.id }}</span>
+      </td>
+      <td>
+{% if submission.owner.user %}
+        <img width="16px" src="/static/icons/user.svg" title="Solo Player" />
+        <a href="{{ url_for('users.show', id=submission.owner.id) }}">{{ submission.owner.name }}</a>
+{% else %}
+        <img width="16px" src="/static/icons/team.svg" title="Team" />
+        <a href="{{ url_for('teams.show', id=submission.owner.id) }}">{{ submission.owner.name }}</a>
+{% endif %}
+        <span class="id">#{{ submission.owner.id }}</span>
+      </td>
+      <td>{{ submission.created_at | datetime }}</td>
+    </tr>
+{% endfor %}
+{% if not submissions %}
+    <tr class="placeholder">
+      <td colspan="999">no perfect submissions</td>
+    </tr>
+{% endif %}
+
+  </tbody>
+</table>
+{% endblock %}

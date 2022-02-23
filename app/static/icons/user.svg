@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="-105 -105 210 210" xmlns="http://www.w3.org/2000/svg">
+  <g transform="scale(0.93)">
+    <circle cx="0" cy="0" r="100" fill="#808080" />
+    <path d="M0,-100 A50,50 0 0 0 0,0 A50,50 0 0 1 0,100 A100,100 0 0 0 0,-100 Z" fill="#cccccc" />
+  </g>
+</svg>

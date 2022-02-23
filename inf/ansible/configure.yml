@@ -1,0 +1,261 @@
+- hosts:  all
+  become: true
+  tasks:
+  - name: install packages
+    apt:
+      update_cache: true
+      name:
+      - net-tools
+      - python3
+      - python3-pip
+
+
+- hosts:  dbs
+  become: true
+  handlers:
+  - name: restart postgres
+    service:
+      name:  postgresql
+      state: restarted
+
+  tasks:
+  - name: install packages
+    package:
+      name:
+      - acl
+      - postgresql
+
+  - name: install psychopg
+    pip:
+      name:
+      - psycopg2-binary
+
+  - name: bind to all addresses
+    lineinfile:
+      path:   /etc/postgresql/12/main/postgresql.conf
+      line:   listen_addresses='*'
+      regexp: listen_address
+    notify: restart postgres
+
+  - name: allow remote access
+    template:
+      src:   templates/pg_hba.conf
+      dest:  /etc/postgresql/12/main/pg_hba.conf
+      owner: postgres
+      group: postgres
+      mode:  0640
+    notify: restart postgres
+
+  - name: start postgres
+    service:
+      name:    postgresql
+      state:   started
+      enabled: true
+
+  - name: add deco user
+    become_user: postgres
+    postgresql_user:
+      name:     "{{sql_username}}"
+      password: "{{sql_password}}"
+
+  - name: add deco database
+    become_user: postgres
+    postgresql_db:
+      name:  "{{sql_database}}"
+      owner: "{{sql_username}}"
+
+  - name: create db dump folder
+    file:
+      path:  /var/dbdump
+      owner: postgres
+      state: directory
+
+  - name: schedule db backups
+    cron:
+      name: decompetition backup
+      user: postgres
+      minute: "0"
+      job: pg_dump {{sql_database}} | gzip > /var/dbdump/$(date +\%Y\%m\%d-\%H\%M).sql.gz
+
+
+- hosts:  apps
+  become: true
+  handlers:
+  - name: restart uwsgi
+    systemd:
+      name:  uwsgi
+      state: restarted
+      daemon_reload: true
+
+  tasks:
+  - name: install apt packages
+    package:
+      name:
+      - docker.io
+      - git
+      - uwsgi
+      - uwsgi-plugin-python3
+
+  - name: install python packages
+    pip:
+      name:
+      - docker
+
+  - name: create app user
+    user:
+      name: app
+      groups:
+      - docker
+
+  - name: create app directory
+    file:
+      path:  /app
+      state: directory
+
+  # - name: create ssh directory
+  #   file:
+  #     path:  /root/.ssh
+  #     state: directory
+  #     mode:  0600
+
+  # - name: upload server key
+  #   template:
+  #     dest: /root/.ssh/server.key
+  #     src:  server.key
+  #     mode: 0400
+
+  # - name: upload challenge key
+  #   template:
+  #     dest: /root/.ssh/challs.key
+  #     src:  challs.key
+  #     mode: 0400
+
+  # - name: clone server repo
+  #   git:
+  #     dest:     /app/server
+  #     repo:     "{{git_server_remote}}"
+  #     version:  "{{git_server_branch}}"
+  #     key_file: /root/.ssh/server.key
+  #     accept_hostkey: true
+  #   notify: restart uwsgi
+
+  # - name: clone challenge repo
+  #   git:
+  #     dest:     /app/challs
+  #     repo:     "{{git_challs_remote}}"
+  #     version:  "{{git_challs_branch}}"
+  #     key_file: /root/.ssh/challs.key
+  #     accept_hostkey: true
+
+  - name: rsync server code
+    synchronize:
+      src:   ../../..
+      dest:  /app
+      owner: false
+      rsync_opts:
+      - "--rsh='ssh -F ../vars/{{envname}}/ssh_config'"
+    notify: restart uwsgi
+
+  - name: rsync challenge code
+    synchronize:
+      src:  "{{ challenge_dir }}"
+      dest:  /app
+      owner: false
+      rsync_opts:
+      - "--rsh='ssh -F ../vars/{{envname}}/ssh_config'"
+    when: challenge_dir is defined and challenge_dir
+
+  - name: install python packages
+    pip:
+      requirements: /app/server/requirements.txt
+    notify: restart uwsgi
+
+  - name: configure app
+    template:
+      src:   templates/app_config.json
+      dest:  /app/server/config.json
+      owner: app
+      group: app
+      mode:  0644
+    notify: restart uwsgi
+
+  - name: configure uwsgi
+    template:
+      src:   templates/uwsgi.ini
+      dest:  /etc/uwsgi/apps-enabled/deco.ini
+      owner: root
+      mode:  0644
+    notify: restart uwsgi
+
+  - name: configure database
+    command:
+      argv:
+      - /app/server/server.py
+      - --init-db
+      - /app/server/config.json
+    run_once: true
+
+  - name: start docker
+    systemd:
+      name:    docker
+      state:   started
+      enabled: true
+
+  - name: pull builder image
+    docker_image:
+      name:  "{{ item }}"
+      source: pull
+    with_items: "{{ containers }}"
+
+  - name: start uwsgi
+    systemd:
+      name:    uwsgi
+      state:   started
+      enabled: true
+
+
+- hosts:  webs
+  become: true
+  handlers:
+  - name: reload nginx
+    service:
+      name:  nginx
+      state: reloaded
+
+  tasks:
+  - name: install nginx
+    package:
+      name:
+      - nginx
+      - python3-certbot-nginx
+
+  - name: remove default site
+    file:
+      path:  /etc/nginx/sites-enabled/default
+      state: absent
+    notify: reload nginx
+
+  - name: check for certbot config
+    stat:
+      path: /etc/letsencrypt/live/decompetition.io/privkey.pem
+    register: privkey
+
+  - name: add http site
+    template:
+      src:  templates/nginx-http.conf
+      dest: /etc/nginx/sites-enabled/decompetition.conf
+    when: privkey.stat.exists == false
+    notify: reload nginx
+
+  - name: add https site
+    template:
+      src:  templates/nginx-https.conf
+      dest: /etc/nginx/sites-enabled/decompetition.conf
+    when: privkey.stat.exists == true
+    notify: reload nginx
+
+  - name: start nginx
+    service:
+      name:    nginx
+      state:   started
+      enabled: true

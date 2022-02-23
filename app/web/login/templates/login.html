@@ -1,0 +1,15 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Log In</h1>
+
+<form method="POST">
+  {{ form.csrf_token }}
+  {{ form | field('username') }}
+  {{ form | field('password') }}
+  <div class="buttons">
+    <a href="{{ url_for('users.new') }}">Register</a>
+    <input type="submit" value="Log In">
+  </div>
+</form>
+{% endblock %}

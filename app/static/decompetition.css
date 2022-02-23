@@ -1,0 +1,295 @@
+body {
+  font-family: sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #400080;
+  color: white;
+
+  padding: 0 1em 0 6pt;
+
+  height: 40pt;
+  line-height: 40pt;
+  box-sizing: border-box;
+}
+
+header img {
+  margin-right: 6pt;
+  vertical-align: middle;
+  width: 24pt;
+}
+
+header #nav-right {
+  float: right;
+}
+
+header form {
+  display: inline-block;
+}
+
+header a, header button {
+  display: inline-block;
+  cursor: pointer;
+
+  background: none;
+  border: none;
+  color: white;
+  padding: 0;
+
+  text-decoration: none;
+  font-family: sans-serif;
+  font-size: 14pt;
+}
+
+header a:hover, header button:hover {
+  text-decoration: underline;
+}
+
+#info-nag {
+  background-color: #aa77ff;
+  border-radius: 4pt;
+  color: white;
+  display: inline-block;
+  font-size: 6pt;
+  height: 8pt;
+  line-height: 9pt;
+  text-align: center;
+  width: 8pt;
+
+  position: relative;
+  top: -1.5em;
+}
+
+
+content {
+  display: block;
+  max-width: 6in;
+  margin: 0 auto;
+  padding-bottom: 1in;
+}
+
+span.id {
+  color: #cccccc;
+  font-size: small;
+  font-weight: normal;
+}
+
+img#hero {
+  display: block;
+  margin: 1em auto;
+  max-width: 2in;
+}
+
+h1 {
+  font-family: monospace;
+  margin-top: 1em;
+  text-align: center;
+}
+
+/*.actions {
+  text-align: center;
+  margin-bottom: 1em;
+  margin-top: -8pt;
+}
+*/
+.subhead {
+  color: #400080;
+  font-weight: bold;
+  text-align: center;
+  line-height: 120%;
+  margin-bottom: 1em;
+  margin-top: -8pt;
+}
+
+.subsubhead {
+  margin-left: 1em;
+  margin-right: 1em;
+  text-align: center;
+}
+
+table {
+  width: 100%;
+
+  border-collapse: collapse;
+  margin-bottom: 3em;
+}
+
+thead tr {
+  background-color: #dddddd;
+}
+
+tr > :first-child {
+  padding-left: 1em;
+}
+
+tr >:last-child {
+  padding-right: 1em;
+}
+
+tbody tr:nth-child(2n) {
+  background-color: #eeeeee;
+}
+
+th, td {
+  padding: 4pt;
+}
+
+tr.placeholder td {
+  background-color: #eeeeee;
+
+  line-height: 36pt;
+  text-align: center;
+}
+
+td img {
+  vertical-align: middle;
+}
+
+
+content form {
+  background-color: #eeeeee;
+  border-radius: 1em;
+  margin-bottom: 1in;
+  padding: 1em;
+}
+
+content form .field {
+  margin-bottom: 1em;
+}
+
+content form .field.check {
+  padding-left: 1em;
+}
+
+content form .field.check * {
+  display: inline-block;
+  width: auto;
+}
+
+content form label, content form .error {
+  padding: 2pt 4pt;
+  margin-bottom: 2pt;
+}
+
+content form label {
+  display: block;
+  padding-left: 1em;
+}
+
+content form .error {
+  background-color: #ffcccc;
+  border-radius: 4pt;
+  color: #800000;
+  float: right;
+}
+
+content form .hint {
+  color: #808080;
+  padding: 2pt 1rem;
+  font-size: smaller;
+  margin-top: -3pt;
+  text-align: justify;
+}
+
+content form .buttons {
+  padding-right: 1em;
+  text-align: right;
+}
+
+content form .buttons * {
+  margin-left: 4pt;
+}
+
+content form input, content form select {
+  background-color: #ffffff;
+  border: 1px solid #cccccc;
+  border-radius: 8pt;
+  box-sizing: border-box;
+  padding: 8pt;
+
+  width: 100%;
+}
+
+content form select {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+content form fieldset {
+  /*background-color: #f8f8f8;*/
+  border: 1px solid #cccccc;
+  border-radius: 1em;
+  margin-bottom: 1em;
+}
+
+content form legend {
+  color: #808080;
+}
+
+content form input[type=submit], a.button {
+  background-color: #400080;
+  border-radius: 8pt;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: monospace;
+  font-size: larger;
+  font-weight: bold;
+  padding: 8pt 1em;
+  min-width: 1in;
+  width: auto;
+}
+
+content form table {
+  background-color: white;
+  margin-bottom: initial;
+}
+
+content form table + .field {
+  margin-top: 1em;
+}
+
+content form thead tr {
+  background-color: #dddddd;
+}
+
+content form p {
+  margin: 6pt 0;
+}
+
+
+p, li {
+  color: #444444;
+  line-height: 150%;
+  text-align: justify;
+}
+
+
+#messages {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+
+  padding: 6pt;
+}
+
+#messages > div {
+  margin: 2pt;
+  padding: 2pt 1em;
+
+  background-color: #ccffcc;
+  border: 1px solid #008000;
+  border-radius: 4pt;
+  color: #008000;
+
+  height: 16pt;
+  line-height: 16pt;
+}
+
+#messages > div.warning {
+  background-color: #ffcccc;
+  border-color: #800000;
+  color: #800000;
+}

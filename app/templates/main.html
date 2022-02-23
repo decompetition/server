@@ -1,0 +1,120 @@
+{% extends "layout.html" %}
+
+{% block style %}
+#signup {
+  border: 4pt solid #aa77ff;
+  border-radius: 1em;
+  display: block;
+  font-size: x-large;
+  margin: 1.5em auto;
+  padding: 1em;
+  text-align: center;
+  text-decoration: none;
+  width: 1.5in;
+}
+
+#signup:hover {
+  background-color: #000000;
+}
+
+h2 {
+  color: #400080;
+  font-size: larger;
+  margin: 2em auto -6pt auto;
+}
+
+h1 + h2 {
+  margin-top: unset;
+}
+{% endblock %}
+
+{% block content %}
+<img id="hero" src="/static/logo.svg" />
+<h1>Decompetition v2.0</h1>
+<div class="subhead">
+  Congratulations to <a href="{{ url_for('teams.show', id=17) }}">PPP</a> for taking first place!
+</div>
+
+<p>Calling all reverse engineers! Test your reversing skills against the systems
+languages of the twenty-first century: C, C++, Go, Rust, and Swift. Given only a
+binary, can you recreate the original source code?</p>
+
+{% if not current_user.get_id() %}
+<a id="signup" class="button" href="{{ url_for('users.new') }}">Sign Up!</a>
+{% endif %}
+
+<p>Your candidate source code will be compiled, and the resulting binary will be
+tested and disassembled.  The majority of your score will come from the
+<a href="https://en.wikipedia.org/wiki/Jaccard_index">intersection over union</a>
+of your disassembly versus the target disassembly.  How close can you get to a
+perfect reconstruction?</p>
+
+
+<h1 style="margin-top: 0.75in">The Details</h1>
+
+<h2>Playing</h2>
+<p>Anyone with an internet connection and a web browser can play.  Access to a
+reverse engineering program may be helpful, but isn't required.  If you don't
+have any reversing software locally, check out
+<a href="https://cloud.binary.ninja/">Binary Ninja Cloud</a>.</p>
+
+<p>This is a team competition. There's no team size limit.</p>
+
+
+<h2>Scoring</h2>
+<p>Your candidate source code will be compiled, and the resulting binary will be
+tested and disassembled. Your score on any challenge is made up of:</p>
+<ul>
+  <li><strong>20%</strong> unit tests.  Pass (hidden) test cases to get these points.</li>
+  <li><strong>60%</strong> binary diff.  Match the target disassembly to get these points. </li>
+  <li><strong>20%</strong> perfect match.  Bonus points for a perfect binary match.</li>
+</ul>
+
+<p>The test case points and the binary diff points can be partial&mdash;you'll
+get more and more points as you improve your source code&mdash;but the final
+20% bonus for a perfect match is all-or-nothing.</p>
+
+
+<h2>Prizes</h2>
+<p>The top three teams will win themselves some Amazon gift cards.  In the case
+of a tie, prizes will be combined and split evenly.  All prizes are in USD:</p>
+
+<ul>
+  <li><strong>$500</strong> for first place.</li>
+  <li><strong>$300</strong> for second place.</li>
+  <li><strong>$200</strong> for third place.</li>
+</ul>
+
+
+<h2>Environment</h2>
+<p>All challenges were built for x86-64 and run on Ubuntu 20.04.  The builder
+container is named <code>decompetition/builder-2021</code> and is available on
+<a href="https://hub.docker.com/r/decompetition/builder-2021">DockerHub</a>.
+Compilers are:</p>
+
+<ul>
+  <li><code>gcc 9.3.0</code></li>
+  <li><code>g++ 9.3.0 -std=c++17</code></li>
+  <li><code>go 1.13.8</code></li>
+  <li><code>nim 1.0.6</code></li>
+  <li><code>rustc 1.53.0</code></li>
+  <li><code>swiftc 5.5.2</code></li>
+</ul>
+
+
+<h2>Disclaimer</h2>
+<p>Decompetition is part of a research project on the process of reverse
+engineering.  Our research is mainly exploratory:</p>
+
+<ul>
+  <li>We're interested in following the full reversing process,
+  to see how reversers work as they go from nothing to fully
+  equivalent source code.</li>
+  <li>We're interested to see how a fast compile-disassemble-diff
+  feedback loop affects the ease and confidence of reversing.</li>
+</ul>
+
+<p>We'll record your source code submissions so we can follow the
+reversing process.  So don't upload any private information in your source.
+Not that you were going to do that, right?</p>
+{% endblock %}

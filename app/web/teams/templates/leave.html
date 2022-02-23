@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Leave Team</h1>
+
+<form action="{{ url_for('teams.leave') }}" method="POST">
+  {{ form.csrf_token }}
+  <p>Are you sure you want to leave {{ team.name }}?  Any challenges you've
+  submitted for the team will remain credited to them, but you'll be free to
+  play solo or join a different team.  You'll need to know the team password
+  of any team you want to join.</p>
+  <div class="buttons">
+    <a href="{{ url_for('teams.show', id=team.id) }}">Cancel</a>
+    <input type="submit" value="Leave" />
+  </div>
+</form>
+{% endblock %}

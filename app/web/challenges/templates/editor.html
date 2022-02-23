@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" href="/static/icon.png" />
+    <script type="text/javascript" src="/static/ext/ace/ace.js"></script>
+    <script type="text/javascript" src="/static/ext/diff-match-patch.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/buttons.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/editors.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/notices.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/replace.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/scoring.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/sharing.js"></script>
+    <script type="text/javascript" src="/static/challenges/editor/windows.js"></script>
+    <link rel="stylesheet" href="/static/challenges/editor.css" />
+    <title>{{ challenge.name }}</title>
+    <script type="text/javascript">
+      const target    = {{ target  | tojson }};
+      const language  = {{ challenge.language | tojson }};
+      var   candidate = null;
+      var   parent    = {{ parent }};
+    </script>
+  </head>
+  <body>
+    <header>
+      <h1>
+        <img src="{{ url_for('static', filename='icon.svg') }}" />
+        <a href="{{ url_for('root') }}">decompetition</a> »
+        <a href="{{ url_for('challenges.index') }}">challenges</a> »
+        {{ challenge.language }} »
+        {{ challenge.name }}
+      </h1>
+      <div id="tabs">
+        <a href="{{ url_for('challenges.download', id=challenge.id) }}" download="{{ challenge.name }}">
+          <img style="width:16px" src="/static/icons/download.svg" title="Download Binary" />
+        </a>
+        <span id="comp-tab">Console</span>
+        <span id="diff-tab" class="active">ASM (<span id="score-ins">-?</span>/<span id="score-del">+?</span>)</span>
+        <span id="score-tab">Score (<span id="score-pct">?%</span>)</span>
+      </div>
+    </header>
+    <content>
+      <div id="verso">
+        <div id="code-edit" class="panel">{{ decomp }}</div>
+        <div id="buttons">
+          <div id="sharing-btn" class="button secondary">
+            <span title="Shortcut: ^O">Load</span>
+          </div>
+          <div id="replace-btn" class="button secondary">
+            <span title="Shortcut: ^H">Replace</span>
+          </div>
+{% if options %}
+          <div id="options-btn" class="button secondary">Options</div>
+{% endif %}
+          <div id="do-compile" class="button">
+            <span title="Shortcut: ^Enter">Compile</span>
+          </div>
+        </div>
+      </div>
+      <div id="recto">
+        <div id="note-view" class="panel">; This is the disassembly you're trying to reproduce.
+; It uses Intel syntax (mov dst, src).
+
+; You can make notes in this pane for reference,
+; but they won't be saved if you leave the page.
+
+{{ target }}</div>
+        <div id="comp-view" class="panel">Compile to see compiler output.</div>
+        <div id="diff-view" class="panel active">
+          <div id="asm-opts" class="view-options">
+            <select id="asm-function"></select>
+            <span id="asm-mode" class="toggle">
+              <label><input type="radio" name="asm-view" value="target" checked="" />Target</label>
+              <label><input type="radio" name="asm-view" value="candidate" />Candidate</label>
+              <label><input type="radio" name="asm-view" value="diff" />Diff</label>
+            </span>
+            <a id="find-btn">Find</a>
+            <span class="toggle">
+              <span id="replace-text"><input type="checkbox" id="replace-check" />Replace</span>
+            </span>
+          </div>
+          <div id="asm-edit">; Compile to see the disassembly diff.</div>
+        </div>
+        <div id="score-view" class="panel">
+          <table>
+            <thead>
+              <tr>
+                <td>Source</td>
+                <td></td>
+                <td>Score</td>
+                <td>Weight</td>
+                <td>Total</td>
+              </tr>
+            </thead>
+            <tbody id="score-table">
+              <tr>
+                <td>Test Cases</td>
+                <td></td>
+                <td>?%</td>
+                <td>20%</td>
+                <td>?%</td>
+              </tr>
+              <tr>
+                <td>ASM Diff</td>
+                <td></td>
+                <td>?%</td>
+                <td>60%</td>
+                <td>?%</td>
+              </tr>
+              <tr>
+                <td colspan="2">Perfect Match Bonus</td>
+                <td>?%</td>
+                <td>20%</td>
+                <td>?%</td>
+              </tr>
+              <tr>
+                <td colspan="2">Latest Submission</td>
+                <td></td>
+                <td></td>
+                <td>?%</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </content>
+
+    <div id="screen" style="display:none"></div>
+
+    <div id="spinner-win" class="window center">
+      Loading...
+    </div>
+
+{% if options %}
+    <div id="options-win" class="window center">
+      <p>Configure your compile here.  Add one compile flag per line.  Use an equals sign to set options that reguire arguments, for example: <tt>-march=mips</tt></p>
+      <div id=options-list>
+        <div id="options-template"><img class="x" src="/static/remove.svg" title="Remove" /><input type="text" required pattern="-.*" /></div>
+      </div>
+      <div id="options-add"  class="button secondary">Add Option</div>
+      <div id="options-done" class="button">Done</div>
+    </div>
+{% endif %}
+
+    <div id="replacement-win" class="window center">
+      <p>Specify replacements here.  These will be applied before the diff.  This won't improve your score, but it can be used to make the diff much easier to read.</p>
+      <div id="replacement-wrapper">
+        <table>
+          <tbody style="display:none">
+            <tr id="replacement-template">
+              <td>Replace</td>
+              <td><input type="text" /></td>
+              <td>in</td>
+              <td>
+                <select>
+                  <option value="target">Target</option>
+                  <option value="candidate">Candidate</option>
+                </select>
+              </td>
+              <td>with</td>
+              <td><input type="text" /></td>
+              <td><img class="x" src="/static/icons/remove.svg" title="Remove" /></td>
+            </tr>
+          </tbody>
+          <tbody id="replacements">
+          </tbody>
+        </table>
+      </div>
+      <div id="replacement-add"  class="button secondary">Add Replacement</div>
+      <div id="replacement-done" class="button cancel-btn">Done</div>
+    </div>
+
+    <div id="sharing-win" class="window center">
+      <form>
+        <table style="width:100%">
+          <thead>
+            <tr>
+              <th><input type="radio" style="visibility: hidden" /> Author</th>
+              <th>Score</th>
+            </tr>
+          </thead>
+          <tbody id="sharing-tbl"></tbody>
+        </table>
+
+        <div class="small-buttons">
+          <div class="button cancel-btn secondary">Cancel</div>
+          <input type="submit" id="do-sharing" class="button" value="Load" />
+        </div>
+      </form>
+    </div>
+
+    <div id="find-win" class="window left">
+      <form>
+        <label>
+          <div>Find</div>
+          <input type="text" id="find-src" />
+        </label>
+        <div class="small-buttons">
+          <div class="button cancel-btn secondary">Close</div>
+          <div class="button secondary" id="do-find-prev">Prev</div>
+          <input type="submit" id="do-find-next" class="button" value="Next" />
+        </div>
+      </form>
+    </div>
+
+    <div id="replace-win" class="window center">
+      <form>
+        <label>
+          <div>Find</div>
+          <input type="text" id="replace-src" />
+        </label>
+        <label>
+          <div>Replace With</div>
+          <input type="text" id="replace-dst" />
+        </label>
+        <div class="small-buttons">
+          <div class="button cancel-btn secondary">Cancel</div>
+          <input type="submit" id="do-replace" class="button" value="Replace" />
+        </div>
+      </form>
+    </div>
+
+    <div id="error-win" class="window center">
+      <p>Something went wrong.</p>
+      <p>You can try again if you'd like, but this probably means there's something wrong with the server.</p>
+      <div class="button cancel-btn">Hmmm...</div>
+    </div>
+
+    <div id="finished-win" class="window center">
+      <p>The competition is over!  No more source code submissions will be accepted.</p>
+      <p>You can head over to the <a href="{{ url_for('scores.html') }}">scoreboard</a> to see the final scores, or you can keep looking at this challenge.</p>
+      <div class="button cancel-btn">Keep Looking</div>
+    </div>
+
+    <script type="text/javascript">
+      window.onload = function() {
+        editors.init()
+        buttons.init()
+      }
+    </script>
+  </body>
+</html>

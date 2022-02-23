@@ -1,0 +1,58 @@
+{% extends "layout.html" %}
+
+{% block style %}
+table td:nth-child(3) {
+  text-align: right;
+}
+{% endblock %}
+
+{% block content %}
+<h1>{{ challenge.name }}</h1>
+<div class="subhead">
+  <a href="{{ url_for('challenges.show', id=challenge.id) }}">play this challenge</a>
+</div>
+
+{% if official == True %}
+<p class="subsubhead">These are the <strong>official</strong> scores as of
+the end of the competition. If you're still playing, you can see your unofficial
+scores <a href="{{ url_for('scores.challenge', id=challenge.id) }}">here</a>.</p>
+{% elif official == False %}
+<p class="subsubhead">These are <strong>unofficial</strong> scores, including
+submissions from after the end of the competition.  You can find the official scores
+<a href="{{ url_for('scores.challenge', id=challenge.id, scores='official') }}">here</a>.</p>
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Place</th>
+      <th>Player</th>
+      <th>Points</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for account in teams %}
+    <tr>
+      <td>{{ account.rank | ordinal }}</td>
+      <td>
+{% if account.is_user %}
+        <img width="16px" src="/static/icons/user.svg" title="Solo Player" />
+        <a href="{{ url_for('users.show', id=account.id) }}">{{ account.name }}</a>
+{% else %}
+        <img width="16px" src="/static/icons/team.svg" title="Team" />
+        <a href="{{ url_for('teams.show', id=account.id) }}">{{ account.name }}</a>
+{% endif %}
+        <span class="id">#{{ account.id }}</span>
+      </td>
+      <td>{{ account.score | float(2) }}</td>
+    </tr>
+{% endfor %}
+{% if not teams %}
+    <tr class="placeholder">
+      <td colspan="999">no submissions</td>
+    </tr>
+{% endif %}
+
+  </tbody>
+</table>
+{% endblock %}

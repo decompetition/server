@@ -1,0 +1,12 @@
+{
+  "debug":       true,
+  "development": true,
+  "testing":     false,
+  "csrf":        true,
+
+  "database":   "postgresql+psycopg2://postgres@localhost",
+  "secret_key": "two can keep a secret key if one of them is dead",
+
+  "start": "2022-02-07 08:38",
+  "stop":  "2022-02-07 08:50"
+}

@@ -1,0 +1,33 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>New Challenge</h1>
+
+<form method="POST">
+  {{ form.csrf_token }}
+  {{ form | field('name') }}
+  {{ form | field('value') }}
+  {{ form | field('language')}}
+  {{ form | field('functions')}}
+  {{ form | field('hidden')}}
+
+  <fieldset>
+    <legend>Sandboxing</legend>
+    {{ form | field('container')}}
+    {{ form | field('builder')}}
+    {{ form | field('tester')}}
+  </fieldset>
+
+  <fieldset>
+    <legend>Challenge Files</legend>
+    {{ form | field('folder') }}
+    {{ form | field('binary') }}
+    {{ form | field('disasm') }}
+    {{ form | field('decomp') }}
+  </fieldset>
+  <div class="buttons">
+    <a href="{{ url_for('challenges.upload') }}">Bulk Upload</a>
+    <input type="submit" value="Create" />
+  </div>
+</form>
+{% endblock %}

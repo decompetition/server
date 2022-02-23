@@ -1,0 +1,12 @@
+{
+  "debug":       false,
+  "development": false,
+  "testing":     false,
+  "csrf":        true,
+
+  "database":   "postgresql+psycopg2://{{sql_username|urlencode}}:{{sql_password|urlencode}}@{{hostvars[groups['dbs'][0]].private_ip}}/{{sql_database|urlencode}}",
+  "secret_key": "{{ vars.app_secret}}",
+
+  "start": {{ vars.app_start_time | to_json }},
+  "stop":  {{ vars.app_end_time   | to_json }}
+}

@@ -1,0 +1,30 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Teams</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Team</th>
+    </tr>
+  </thead>
+  <tbody>
+{% for team in teams %}
+    <tr>
+      <td>
+        <img width="16px" src="/static/icons/team.svg" title="Team" />
+        <a href="{{ url_for('teams.show', id=team.id) }}">{{ team.name }}</a>
+        <span class="id">#{{ team.id }}</span>
+      </td>
+    </tr>
+{% endfor %}
+{% if not teams %}
+    <tr class="placeholder">
+      <td colspan="999">no teams yet</td>
+    </tr>
+{% endif %}
+
+  </tbody>
+</table>
+{% endblock %}

@@ -1,0 +1,9 @@
+{
+  "debug":       true,
+  "development": true,
+  "testing":     true,
+  "csrf":        false,
+
+  "database":   "sqlite://",
+  "secret_key": "two can keep a secret key if one of them is dead"
+}

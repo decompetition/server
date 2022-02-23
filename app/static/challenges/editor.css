@@ -1,0 +1,379 @@
+html, body {
+  background-color: #400080;
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+}
+
+header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 40pt;
+
+  margin: 0;
+  padding: 0;
+
+  font-family: sans-serif;
+}
+
+header img {
+  vertical-align: middle;
+  margin-right: 2pt;
+}
+
+h1 > img {
+  margin-right: 6pt;
+  vertical-align: middle;
+  width: 24pt;
+}
+
+h1 {
+  color: #ffffff;
+  height: 40pt;
+  line-height: 40pt;
+  margin: 0;
+  padding-left: 6pt;
+
+  font-size: 14pt;
+  font-weight: normal;
+}
+
+h1 a {
+  color: white;
+  text-decoration: none;
+}
+
+h1 a:hover {
+  text-decoration: underline;
+}
+
+content {
+  position: fixed;
+  top: 40pt;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  margin: 0;
+  padding: 0;
+}
+
+#verso {
+  position: relative;
+  min-width: 20%;
+  max-width: 80%;
+  height: 100%;
+  width: 50%;
+  float: left;
+
+  resize: horizontal;
+  overflow: auto;
+
+  padding: 0;
+}
+
+#recto {
+  position: relative;
+  height: 100%;
+  overflow: auto;
+
+  padding: 0;
+}
+
+.panel {
+  position: absolute;
+  bottom: 6pt;
+  top: 0pt;
+
+  background-color: #ffffff;
+}
+
+#verso > .panel {
+  border-radius: 0 6pt 6pt 0;
+  right: 8pt;
+  left: 0;
+}
+
+#recto > .panel {
+  display: none;
+  border-radius: 6pt 0 0 6pt;
+  right: 0;
+  left: 4pt;
+}
+
+#recto > .panel.active {
+  display: block;
+}
+
+.view-options {
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 32px;
+  position: absolute;
+
+  line-height: 32px;
+  padding: 0 1em;
+
+  border-bottom: 1px solid #aaaaaa;
+}
+
+.view-options select {
+  max-width: 2in;
+}
+
+#asm-edit, #bnil-edit {
+  top: 33px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+
+  border-radius: 0 0 0 6pt;
+}
+
+#find-btn {
+  margin-left: 6pt;
+}
+
+.toggle > label, .toggle > span, #find-btn {
+  background-color: #aaaaaa;
+  border-radius: 4pt;
+  color: #404040;
+  cursor: pointer;
+  font-family: sans-serif;
+  padding: 2pt 4pt;
+}
+
+
+#score-ins {
+  color: #800000;
+}
+
+#score-del {
+  color: #006000;
+}
+
+#buttons {
+  position: absolute;
+  bottom: 1em;
+  right: 14pt;
+}
+
+#buttons .button {
+  display: inline-block;
+  margin-left: 4pt;
+  min-width: 1in;
+}
+
+#tabs {
+  position: absolute;
+  bottom: 0;
+  right: 6pt;
+}
+
+#tabs > span {
+  border-radius: 6pt 6pt 0 0;
+  background-color: #aaaaaa;
+  cursor: pointer;
+  display: inline-block;
+  font-family: monospace;
+  height: 2.5em;
+  line-height: 3.0em;
+  padding: 0 1em;
+}
+
+#tabs > span.active {
+  background-color: #ffffff;
+}
+
+.line-marker {
+  border-radius: 0;
+  width: 100% !important;
+  position: absolute;
+  left: 0 !important;
+}
+
+.warning {
+  background-color: #ffffcc;
+}
+
+.error {
+  background-color: #ffcccc;
+}
+
+.diff-ins {
+  background-color: #ddbbff;
+}
+
+.diff-ins.minor {
+  background-color: #f8eeff;
+}
+
+.diff-del {
+  background-color: #ffff99;
+}
+
+.diff-del.minor {
+  background-color: #ffffdd;
+}
+
+.srcmap {
+  background-color: #ccccff !important;
+}
+
+#screen {
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.window {
+  display: none;
+  position: fixed;
+  width: 300px;
+
+  color: #606060;
+  font-family: sans-serif;
+  text-align: justify;
+
+  background-color: #ffffff;
+  border: 1px solid #400080;
+  border-radius: 12pt;
+  padding: 12pt;
+}
+
+.window.center {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.window.left {
+  top: 50%;
+  left: 50%;
+  transform: translate(-100%, -50%);
+}
+
+.window.active {
+  display: block;
+}
+
+.window > p:first-child {
+  margin-top: 0;
+}
+
+.window p {
+  line-height: 120%;
+}
+
+.window input[type=text] {
+  box-sizing: border-box;
+  width: 100%;
+}
+
+#find-win input[type=text], #replace-win input[type=text] {
+  border: 1px solid #808080;
+  border-radius: 4pt;
+  padding: 4pt;
+}
+
+#find-win label > div, label > div {
+  color: #000000;
+  padding: 2pt 4pt;
+}
+
+.window label {
+  display:  block;
+  margin-bottom: 4pt;
+}
+
+.button {
+  background-color: #400080;
+  color: #ffffff;
+  cursor: pointer;
+
+  font-family: monospace;
+  font-weight: bold;
+  text-align: center;
+
+  box-sizing: border-box;
+  border: none;
+  border-radius: 8pt;
+  margin-top: 6pt;
+  padding: 8pt;
+}
+
+.button.secondary {
+  background-color: #aaaaaa;
+  color: #404040;
+}
+
+.small-buttons {
+  text-align: right;
+}
+
+.small-buttons .button {
+  display:  inline-block;
+  min-width: 64pt;
+  padding: 6pt;
+}
+
+#replacement-win {
+  width: 600px;
+}
+
+#replacement-win table {
+  width: 100%;
+}
+
+#replacement-wrapper {
+  max-height: 200px;
+  overflow-y: scroll;
+}
+
+#replacement-win .x {
+  cursor: pointer;
+  width: 16px;
+}
+
+
+#score-view {
+  color: #404040;
+  font-family: sans-serif;
+  font-size: 16pt;
+}
+
+#score-view table {
+  border-collapse: collapse;
+  margin: 1in auto;
+}
+
+#score-view td {
+  padding: 4pt 8pt;
+  text-align: right;
+}
+
+#score-view td:first-child {
+  text-align: left;
+}
+
+#score-view thead td {
+  border-bottom: 1px solid #808080;
+  font-weight: bold;
+}
+
+#score-view tbody tr:last-child td {
+  border-top: 1px solid #808080;
+}
+
+#score-view tbody tr:last-child td:last-child {
+  font-weight: bold;
+}

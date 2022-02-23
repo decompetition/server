@@ -1,0 +1,65 @@
+{% extends "layout.html" %}
+
+{% block style %}
+tr :nth-child(1) {text-align: left;}
+tr :nth-child(2) {text-align: left;}
+tr :nth-child(3) {text-align: center;}
+tr :nth-child(4) {text-align: right;}
+tr :nth-child(5) {text-align: right;}
+{% endblock %}
+
+{% block content %}
+<h1>Challenges</h1>
+
+{% if current_user.is_admin() %}
+<div class="subhead">
+  <a href="{{ url_for('challenges.new') }}">New Challenge</a> &bull;
+  <a href="{{ url_for('challenges.upload') }}">Bulk Upload</a>
+</div>
+{% endif %}
+
+{% if not current_user.get_id() %}
+<p class="subsubhead">You'll need to <a href="{{ url_for('login.login') }}">log in</a>
+or <a href="{{ url_for('users.new') }}">register</a>
+before you can access the challenges.</p>
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Challenge</th>
+      <th>Lang.</th>
+      <th>Value</th>
+      <th>Score</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+{% for challenge in challenges %}
+    <tr>
+      <td>
+        <a href="{{ url_for('challenges.show', id=challenge.id) }}">{{ challenge.name }}</a>
+        <span class="id">#{{ challenge.id }}</span>
+        {{ "(hidden)" if challenge.hidden }}
+      </td>
+      <td>{{ challenge.language }}</td>
+      <td>{{ challenge.value }}</td>
+      <td>{{ solves.get(challenge.id) | percent }}</td>
+      <td>
+        <a href="{{ url_for('scores.challenge', id=challenge.id) }}"><img width="16px" src="/static/icons/trophy.svg" title="Leaderboard" /></a>
+        <a href="{{ url_for('challenges.download', id=challenge.id) }}" download="{{ challenge.name }}"><img width="16px" src="/static/icons/download.svg" title="Download Binary" /></a>
+{% if current_user.is_admin() %}
+        <a href="{{ url_for('challenges.edit', id=challenge.id) }}"><img width="16px" src="/static/icons/edit.svg" title="Edit" /></a>
+        <a href="{{ url_for('challenges.delete', id=challenge.id) }}"><img width="16px" src="/static/icons/delete.svg" title="Delete" /></a>
+{% endif %}
+      </td>
+    </tr>
+{% endfor %}
+{% if not challenges %}
+    <tr class="placeholder">
+      <td colspan="999">challenges will appear when the competition starts</td>
+    </tr>
+{% endif %}
+  </tbody>
+</table>
+{% endblock %}

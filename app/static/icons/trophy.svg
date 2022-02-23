@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="-105 -105 210 210" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    path {
+      stroke-linecap: round;
+      stroke-linejoin: round;
+
+      stroke: #808080;
+      stroke-width: 20;
+    }
+
+  </style>
+
+  <path fill="#808080" d="M -50,+90 L +50,+90 L 0,70 Z" />
+  <path fill="none"    d="M -90,-70 L +90,-70 L 0,50 Z" />
+  <path fill="#dddddd" d="M -50,-90 L +50,-90 L 0,90 Z" />
+</svg>

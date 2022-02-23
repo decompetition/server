@@ -1,0 +1,21 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>New User</h1>
+<p class="subsubhead">
+Sharing user accounts may result in submission conflicts!<br/>
+You can join a team once you have a user account.
+</p>
+
+<form method="POST">
+  {{ form.csrf_token }}
+  {{ form | field('name') }}
+  {{ form | field('password') }}
+  {{ form | field('disclaimer') }}
+
+  <div class="buttons">
+    <a href="{{ url_for('login.login') }}">Log In</a>
+    <input type="submit" value="Register">
+  </div>
+</form>
+{% endblock %}

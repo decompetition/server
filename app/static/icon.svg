@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="-105 -105 210 210" xmlns="http://www.w3.org/2000/svg">
+  <circle cx="0" cy="0" r="100" fill="#000000" />
+  <path d="M0,-100 A50,50 0 0 0 0,0 A50,50 0 0 1 0,100 A100,100 0 0 0 0,-100 Z" fill="#aa77ff" />
+
+  <!-- <g id="ret" fill="#aa77ff" transform="translate(0, 50) scale(1.1)">
+    <path fill-rule="evenodd" d="
+      M-14,0 Q-14,20 0,20 Q14,20 14,0 Q14,-20 0,-20 Q-14,-20 0,-20 Q-14,-20 -14,0 Z
+      M-8,0 Q-8,15 0,15 Q8,15 8,0 Q8,-15 0,-15 Q-8,-15 0,-15 Q-8,-15 -8,0 Z" />
+    <rect x="-6" y="-2" width="12" height="4" rx="1" />
+  </g>
+
+  <g id="ret" fill="#000000" transform="translate(0, -50) scale(1.1)">
+    <path fill-rule="evenodd" d="
+      M-14,0 Q-14,20 0,20 Q14,20 14,0 Q14,-20 0,-20 Q-14,-20 0,-20 Q-14,-20 -14,0 Z
+      M-8,0 Q-8,15 0,15 Q8,15 8,0 Q8,-15 0,-15 Q-8,-15 0,-15 Q-8,-15 -8,0 Z" />
+    <rect x="-6" y="-2" width="12" height="4" rx="1" />
+  </g> -->
+</svg>

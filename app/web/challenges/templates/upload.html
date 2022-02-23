@@ -1,0 +1,14 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<h1>Upload Challenges</h1>
+
+<form method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token }}
+  {{ form | field('config_path') }}
+  <div class="buttons">
+    <a href="{{ url_for('challenges.new') }}">New Challenge</a>
+    <input type="submit" value="Upload" />
+  </div>
+</form>
+{% endblock %}

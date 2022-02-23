@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg viewBox="-105 -105 210 210" xmlns="http://www.w3.org/2000/svg">
+  <circle fill="#cccccc" cx="-60" cy="-60" r="30" />
+  <circle fill="#808080" cx="  0" cy="-60" r="30" />
+  <circle fill="#cccccc" cx="+60" cy="-60" r="30" />
+
+  <circle fill="#808080" cx="-60" cy="  0" r="30" />
+  <circle fill="#cccccc" cx="  0" cy="  0" r="30" />
+  <circle fill="#cccccc" cx="+60" cy="  0" r="30" />
+
+  <circle fill="#808080" cx="-60" cy="+60" r="30" />
+  <circle fill="#808080" cx="  0" cy="+60" r="30" />
+  <circle fill="#808080" cx="+60" cy="+60" r="30" />
+</svg>

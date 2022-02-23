@@ -1,0 +1,48 @@
+{% extends "layout.html" %}
+
+{% block style %}
+td:nth-child(3) {text-align: center;}
+td:nth-child(4) {text-align: right;}
+td:nth-child(5) {text-align: right;}
+{% endblock %}
+
+{% block content %}
+<h1>{{ team.name }}</h1>
+{% if team.members | length == 1 %}
+<div class="subhead">1 member</div>
+{% else %}
+<div class="subhead">{{ team.members | length }} members</div>
+{% endif %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Users</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+{% for user in team.members %}
+    <tr>
+      <td>
+        <img width="16px" src="/static/icons/user.svg" title="User" />
+        <a href="{{ url_for('users.show', id=user.id) }}">{{ user.name }}</a>
+        <span class="id">#{{ user.id }}</span>
+      </td>
+      <td>
+{% if user.get_id() == current_user.get_id() %}
+        <a href="{{ url_for('teams.leave') }}">Leave</a>
+{% endif %}
+      </td>
+    </tr>
+{% endfor %}
+{% if not team.members %}
+    <tr class="placeholder">
+      <td colspan="999">no members</td>
+    </tr>
+{% endif %}
+  </tbody>
+</table>
+
+{% include "solves.html" %}
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends "layout.html" %}
+
+{% block style %}
+content form textarea {
+  border: 1px solid #cccccc;
+  border-radius: 8pt 8pt 0 8pt;
+  box-sizing: border-box;
+  padding: 8pt;
+
+  resize: vertical;
+  height: 1in;
+  width: 100%;
+}
+{% endblock %}
+
+{% block content %}
+<h1>Follow-Up Survey</h1>
+
+<p class="subsubhead">Thanks for playing!  Want to help us
+with our research and help improve the competition for next
+time?  This is your chance to leave some feedback.</p>
+
+<p class="subsubhead">(Some of these might look familiar!)</p>
+
+<form method="POST">
+  {{ form.csrf_token }}
+
+  {{ form | field('deco_ux') }}
+  {{ form | field('deco_speed') }}
+  {{ form | field('deco_code') }}
+
+  {{ form | field('reversing_confidence') }}
+  {{ form | field('reversing_difficulty') }}
+
+  <fieldset>
+    <legend>Programming by Language</legend>
+    <p>How familiar are you with <i>programming</i> in the following languages?</p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left;">Language</th>
+          <th colspan="5">
+            <span style="float: left;">Beginner</span>
+            <span style="float: right;">Expert</span>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+{% for lang in ['c', 'cpp', 'go', 'rust', 'swift'] %}
+{% with field = form['codexp_' + lang] %}
+        <tr>
+          <td>
+            {{ field.label.text }}
+{% if form.errors['codexp_' + lang] %}
+            <span class="error">Required.</span>
+{% endif %}
+          </td>
+{% for i in range(1, 6) %}
+          <td><input name="codexp_{{ lang }}" type="radio" value="{{ i }}" {% if field.data == i %}checked="" {% endif %}/></td>
+{% endfor %}
+        </tr>
+{% endwith %}
+{% endfor %}
+      </tbody>
+    </table>
+  </fieldset>
+
+  <fieldset>
+    <legend>Reversing by Language</legend>
+    <p>How familiar are you with <i>reversing</i> the following languages?</p>
+    <table>
+      <thead>
+        <th style="text-align: left;">Language</th>
+          <th colspan="5">
+            <span style="float: left;">Beginner</span>
+            <span style="float: right;">Expert</span>
+          </th>
+      </thead>
+      <tbody>
+{% for lang in ['c', 'cpp', 'go', 'rust', 'swift'] %}
+{% with field = form['revexp_' + lang] %}
+        <tr>
+          <td>
+            {{ field.label.text }}
+{% if form.errors['revexp_' + lang] %}
+            <span class="error">Required.</span>
+{% endif %}
+          </td>
+{% for i in range(1, 6) %}
+          <td><input name="revexp_{{ lang }}" type="radio" value="{{ i }}" {% if field.data == i %}checked="" {% endif %}/></td>
+{% endfor %}
+        </tr>
+{% endwith %}
+{% endfor %}
+      </tbody>
+    </table>
+  </fieldset>
+
+  <fieldset>
+    <legend>Reversing Tools</legend>
+    <p>How often did you use the following tools <i>when playing Decompetition?</i></p>
+    <table>
+      <thead>
+        <tr>
+          <th style="text-align: left;">Tool</th>
+          <th style="width: 20%">Never</th>
+          <th style="width: 20%">Sometimes</th>
+          <th style="width: 20%">Often</th>
+        </tr>
+      </thead>
+      <tbody>
+{% for tool in ['angr', 'binja', 'ghidra', 'ida', 'cli', 'radare', 'tcpdump', 'deco', 'custom'] %}
+{% with field = form['tool_' + tool] %}
+        <tr>
+          <td>
+            {{ field.label.text }}
+{% if form.errors['tool_' + tool] %}
+            <span class="error">Required.</span>
+{% endif %}
+          </td>
+{% for i in range(1, 4) %}
+          <td><input name="tool_{{ tool }}" type="radio" value="{{ i }}" {% if field.data == i %}checked="" {% endif %}/></td>
+{% endfor %}
+        </tr>
+{% endwith %}
+{% endfor %}
+      </tbody>
+    </table>
+  </fieldset>
+
+  {{ form | field('tool_other') }}
+
+  {{ form | field('comment_comp') }}
+  {{ form | field('comment_tool') }}
+  {{ form | field('comment_misc') }}
+
+  {{ form | field('survey_email') }}
+
+  <div class="buttons">
+    <input type="submit" value="Submit">
+  </div>
+</form>
+{% endblock %}

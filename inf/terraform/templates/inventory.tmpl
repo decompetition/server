@@ -1,0 +1,12 @@
+[all:vars]
+ansible_ssh_common_args="-F inf/vars/${env}/ssh_config"
+
+
+[webs]
+${web.tags["Nick"]} private_ip=${web.private_ip}
+
+[apps]
+%{ for server in app }${server.tags["Nick"]} private_ip=${server.private_ip}
+%{ endfor }
+[dbs]
+${db.tags["Nick"]} private_ip=${db.private_ip}

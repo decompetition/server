@@ -1,0 +1,10 @@
+capstone
+diff_match_patch
+flask
+flask_login
+flask_sqlalchemy
+flask_wtf
+intervaltree
+psycopg2-binary
+pyelftools
+pyyaml
