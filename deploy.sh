@@ -44,7 +44,7 @@ run_init() {
     exit 1
   fi
 
-  mkdir "$inf/vars/$env"
+  mkdir -p "$inf/vars/$env"
   cat <<EOF > "$inf/vars/$env/config.json"
 {
   "aws_region":        "us-west-1",
