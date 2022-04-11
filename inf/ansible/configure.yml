@@ -70,12 +70,20 @@
       owner: postgres
       state: directory
 
+  - name: add db dump script
+    template:
+      src:   templates/db-dump.sh
+      dest:  /opt/db-dump.sh
+      owner: postgres
+      group: postgres
+      mode:  0755
+
   - name: schedule db backups
     cron:
       name: decompetition backup
       user: postgres
       minute: "0"
-      job: pg_dump {{sql_database}} | gzip > /var/dbdump/$(date +\%Y\%m\%d-\%H\%M).sql.gz
+      job:  /opt/db-dump.sh
 
 
 - hosts:  apps
