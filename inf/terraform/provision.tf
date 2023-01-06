@@ -171,6 +171,10 @@ resource "aws_instance" "web" {
     Name = "${var.envname}-web"
     Nick = "web"
   }
+
+  lifecycle {
+    ignore_changes = [ami]
+  }
 }
 
 resource "aws_instance" "app" {
@@ -192,6 +196,10 @@ resource "aws_instance" "app" {
     Name = "${var.envname}-app-${count.index}"
     Nick = "app-${count.index}"
   }
+
+  lifecycle {
+    ignore_changes = [ami]
+  }
 }
 
 resource "aws_instance" "db" {
@@ -207,6 +215,10 @@ resource "aws_instance" "db" {
   tags = {
     Name = "${var.envname}-db"
     Nick = "db"
+  }
+
+  lifecycle {
+    ignore_changes = [ami]
   }
 }
 
